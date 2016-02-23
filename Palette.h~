@@ -1,0 +1,11 @@
+#include "ofMain.h"
+
+using namespace ofxColorPalette;
+
+class Palette {
+ public:
+  Palette();
+  ~Palette();
+  virtual ofColor nextColor();
+  void reset();
+}
