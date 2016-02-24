@@ -8,5 +8,4 @@ class Palette {
   Palette();
   ~Palette();
   virtual std::shared_ptr<ofColor> nextColor();
-  virtual void reset();
 };
