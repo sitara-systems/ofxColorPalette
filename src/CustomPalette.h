@@ -1,8 +1,10 @@
+#pragma once
+
 #include "Palette.h"
 
 namespace ofxColorPalette {
 
-	class CustomPalette {
+	class CustomPalette : public Palette {
 	public:
 		CustomPalette(std::vector<ofColor> colors);
 		CustomPalette(std::string filename);

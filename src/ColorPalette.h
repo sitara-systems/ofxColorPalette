@@ -1,5 +1,6 @@
-#include "Palette.h"
+#pragma once
 
+#include "Palette.h"
 #include <vector>
 
 namespace ofxColorPalette {
@@ -16,7 +17,7 @@ namespace ofxColorPalette {
 		NEUTRAL
 	};
 
-	class ColorPalette {
+	class ColorPalette : public Palette {
 	public:
 		ColorPalette(PALETTE_TYPE palette, float rootHue);
 		ColorPalette(PALETTE_TYPE palette);
@@ -24,11 +25,9 @@ namespace ofxColorPalette {
 		std::shared_ptr<ofColor> nextColor();
 		void init(PALETTE_TYPE palette);
 		void randomizePalette();
-		void setBlackProbability(float probability);
+		void setProbabilities(float black, float white, float saturated);
 		float getBlackProbability();
-		void setWhiteProbability(float probability);
 		float getWhiteProbability();
-		void setSaturatedProbability(float probability);
 		float getSaturatedProbability();
 		void setMaximumSaturation(float maximum_saturation);
 		float getMaximumSaturation();

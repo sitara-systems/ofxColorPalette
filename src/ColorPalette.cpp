@@ -132,24 +132,19 @@ void ColorPalette::randomizePalette() {
 	}
 }
 
-void ColorPalette::setBlackProbability(float probability) {
-	mBlackProbability = probability;
+void ColorPalette::setProbabilities(float black, float white, float saturated) {
+	mBlackProbability = black;
+	mWhiteProbability = white;
+	mSaturatedProbability = saturated;
 }
+
 
 float ColorPalette::getBlackProbability() {
 	return mBlackProbability;
 }
 
-void ColorPalette::setWhiteProbability(float probability) {
-	mWhiteProbability = probability;
-}
-
 float ColorPalette::getWhiteProbability() {
 	return mWhiteProbability;
-}
-
-void ColorPalette::setSaturatedProbability(float probability) {
-	mSaturatedProbability = probability;
 }
 
 float ColorPalette::getSaturatedProbability() {
