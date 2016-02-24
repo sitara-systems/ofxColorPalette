@@ -2,33 +2,54 @@
 
 #include <vector>
 
-using namespace ofxColorPalette;
+namespace ofxColorPalette {
 
-enum PALETTE_TYPE {
-	MONOCHROME,
-	COMPLEMENTARY,
-	SPLIT_COMPLEMENTARY,
-	TRIADIC,
-	TETRADIC,
-	FOUR_TONE,
-	FIVE_TONE,
-	SIX_TONE,
-	NEUTRAL
-};
+	enum PALETTE_TYPE {
+		MONOCHROME,
+		COMPLEMENTARY,
+		SPLIT_COMPLEMENTARY,
+		TRIADIC,
+		TETRADIC,
+		FOUR_TONE,
+		FIVE_TONE,
+		SIX_TONE,
+		NEUTRAL
+	};
 
-class ColorPalette {
- public:
-	 ColorPalette(PALETTE_TYPE palette, float rootHue);
-	 ColorPalette(PALETTE_TYPE palette);
-	 ~ColorPalette();
-  std::shared_ptr<ofColor> nextColor();
-  void init();
-  void reset();
-protected:
-	PALETTE_TYPE mPaletteType;
-	std::vector<float> mHueOffsets;
-	float mBlackProbability;
-	float mWhiteProbability;
-	float mSaturatedProbability;
-	float mRootHue;
-};
+	class ColorPalette {
+	public:
+		ColorPalette(PALETTE_TYPE palette, float rootHue);
+		ColorPalette(PALETTE_TYPE palette);
+		~ColorPalette();
+		std::shared_ptr<ofColor> nextColor();
+		void init(PALETTE_TYPE palette);
+		void randomizePalette();
+		void setBlackProbability(float probability);
+		float getBlackProbability();
+		void setWhiteProbability(float probability);
+		float getWhiteProbability();
+		void setSaturatedProbability(float probability);
+		float getSaturatedProbability();
+		void setMaximumSaturation(float maximum_saturation);
+		float getMaximumSaturation();
+		void setMaximumBrightness(float maximum_brightness);
+		float getMaximumBrightness();
+		void setMinimumSaturation(float minimum_saturation);
+		float getMinimumSaturation();
+		void setMinimumBrightness(float minimum_brightness);
+		float getMinimumBrightness();
+
+	protected:
+		PALETTE_TYPE mPaletteType;
+		std::vector<float> mHueOffsets;
+		float mBlackProbability;
+		float mWhiteProbability;
+		float mSaturatedProbability;
+		float mMaximumBrightness;
+		float mMaximumSaturation;
+		float mMinimumBrightness;
+		float mMinimumSaturation;
+		float mRootHue;
+	};
+
+}

@@ -1,8 +1,8 @@
 #include "Palette.h"
 
-using namespace ofxColorPalette;
-
-class RandomSaturatedPalette {
+namespace ofxColorPalette {
+	
+	class RandomSaturatedPalette {
  public:
 	 RandomSaturatedPalette() {};
 	 ~RandomSaturatedPalette() {};
@@ -12,3 +12,6 @@ class RandomSaturatedPalette {
     return nextColor;
   };
 };
+
+}
+

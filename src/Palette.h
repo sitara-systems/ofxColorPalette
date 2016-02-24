@@ -1,7 +1,7 @@
 #include "ofMain.h"
 #include <memory>
 
-using namespace ofxColorPalette;
+namespace ofxColorPalette {
 
 class Palette {
  public:
@@ -9,3 +9,5 @@ class Palette {
   ~Palette();
   virtual std::shared_ptr<ofColor> nextColor();
 };
+
+}
