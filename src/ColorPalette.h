@@ -4,6 +4,7 @@
 #include <vector>
 
 namespace ofxColorPalette {
+
 	class ColorPalette : public Palette {
 	public:
 		ColorPalette(PALETTE_TYPE palette, float rootHue);

@@ -27,6 +27,7 @@
 *.out
 *.app
 
+<<<<<<< HEAD
 # other files
 *~
 #*#
@@ -227,3 +228,6 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+=======
+*~
+>>>>>>> 1d656bf9fc8d0b104ea0835213dae87bc258142b
