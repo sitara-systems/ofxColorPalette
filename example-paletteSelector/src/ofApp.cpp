@@ -118,7 +118,7 @@ void ofApp::drawCircles(ofxColorPalette::PALETTE_TYPE palette_type) {
 	palette->setProbabilities(0.1, 0.1, 0.3);
 
 	mFbo.begin();
-	ofBackground(0);
+	ofBackground(128);
 
 	for (int i = 0; i < 100; i++) {
 		std::shared_ptr<ofColor> color = palette->nextColor();

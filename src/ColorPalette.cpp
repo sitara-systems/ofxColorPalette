@@ -32,7 +32,7 @@ std::shared_ptr<ofColor> ColorPalette::nextColor() {
 		saturation = 0.0;
 		brightness = mMaximumBrightness;
 	}
-	else if (randomSeed < mBlackProbability + mWhiteProbability + mSaturatedProbability) {
+	else {
 		// if not white or black, then pick a hued color based off of saturation scheme:
 		switch(mSaturationType) {
 			case STATIC:
@@ -45,6 +45,10 @@ std::shared_ptr<ofColor> ColorPalette::nextColor() {
 				break;
 			case RANDOM:
 				saturation = ofRandom(mMinimumSaturation, mMaximumSaturation);
+				brightness = mMaximumBrightness;
+				break;
+			default:
+				saturation = mMaximumSaturation;
 				brightness = mMaximumBrightness;
 				break;
 		}
@@ -65,11 +69,12 @@ std::vector<float> ColorPalette::getHues() {
 
 void ColorPalette::init(PALETTE_TYPE palette) {
 	mPaletteType = palette;
-	mSaturationType = STATIC;
+	mSaturationType = LEVELS;
 	setNumberOfSaturationLevels(8);
 	mBlackProbability = 0.0;
 	mWhiteProbability = 0.0;
 	mSaturatedProbability = 0.0;
+	randomizePalette();
 	mMaximumBrightness = 255.0;
 	mMaximumSaturation = 255.0;
 	mMinimumBrightness = 0.0;
