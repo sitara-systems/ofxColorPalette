@@ -23,25 +23,30 @@ std::shared_ptr<ofColor> ColorPalette::nextColor() {
 	float brightness;
 	float randomSeed = ofRandom(1.0);
 	if (randomSeed < mBlackProbability) {
+		// set to black
 		saturation = 0.0;
 		brightness = 0.0;
 	}
 	else if (randomSeed < mBlackProbability + mWhiteProbability) {
+		// set to white
 		saturation = 0.0;
 		brightness = mMaximumBrightness;
 	}
 	else if (randomSeed < mBlackProbability + mWhiteProbability + mSaturatedProbability) {
-		saturation = mMaximumSaturation;
-		brightness = mMaximumBrightness;
-	}
-	else {
-		if (ofRandom(1.0) < 0.5) {
-			saturation = ofRandom(mMaximumSaturation);
-			brightness = mMaximumBrightness;
-		}
-		else {
-			saturation = mMaximumSaturation;
-			brightness = ofRandom(mMaximumBrightness);
+		// if not white or black, then pick a hued color based off of saturation scheme:
+		switch(mSaturationType) {
+			case STATIC:
+				saturation = mMaximumSaturation;
+				brightness = mMaximumBrightness;
+				break;
+			case LEVELS:
+				saturation = mSaturationLevels[(int)ofRandom(mSaturationLevels.size())];
+				brightness = mMaximumBrightness;
+				break;
+			case RANDOM:
+				saturation = ofRandom(mMinimumSaturation, mMaximumSaturation);
+				brightness = mMaximumBrightness;
+				break;
 		}
 	}
 
@@ -60,6 +65,8 @@ std::vector<float> ColorPalette::getHues() {
 
 void ColorPalette::init(PALETTE_TYPE palette) {
 	mPaletteType = palette;
+	mSaturationType = STATIC;
+	setNumberOfSaturationLevels(8);
 	mBlackProbability = 0.0;
 	mWhiteProbability = 0.0;
 	mSaturatedProbability = 0.0;
@@ -160,6 +167,14 @@ float ColorPalette::getSaturatedProbability() {
 	return mSaturatedProbability;
 }
 
+void ColorPalette::setSaturationType(SATURATION_TYPE type) {
+	mSaturationType = type;
+}
+
+SATURATION_TYPE ColorPalette::getSaturationType() {
+	return mSaturationType;
+}
+
 void ColorPalette::setMaximumSaturation(float maximum_saturation) {
 	mMaximumSaturation = maximum_saturation;
 }
@@ -168,20 +183,31 @@ float ColorPalette::getMaximumSaturation() {
 	return mMaximumSaturation;
 }
 
-void ColorPalette::setMaximumBrightness(float maximum_brightness) {
-	mMaximumBrightness = maximum_brightness;
-}
-
-float ColorPalette::getMaximumBrightness() {
-	return mMaximumBrightness;
-}
-
 void ColorPalette::setMinimumSaturation(float minimum_saturation) {
 	mMinimumSaturation = minimum_saturation;
 }
 
 float ColorPalette::getMinimumSaturation() {
 	return mMinimumSaturation;
+}
+
+void ColorPalette::setNumberOfSaturationLevels(int levels) {
+	mSaturationLevels.clear();
+	for (int i = 0; i < levels; i++) {
+		mSaturationLevels.push_back(255.0 * i / levels);
+	}
+}
+
+int ColorPalette::getNumberOfSaturationLevels() {
+	return mSaturationLevels.size();
+}
+
+void ColorPalette::setMaximumBrightness(float maximum_brightness) {
+	mMaximumBrightness = maximum_brightness;
+}
+
+float ColorPalette::getMaximumBrightness() {
+	return mMaximumBrightness;
 }
 
 void ColorPalette::setMinimumBrightness(float minimum_brightness) {

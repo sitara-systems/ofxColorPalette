@@ -4,6 +4,23 @@
 #include <vector>
 
 namespace ofxColorPalette {
+	enum PALETTE_TYPE {
+		MONOCHROME,
+		COMPLEMENTARY,
+		SPLIT_COMPLEMENTARY,
+		TRIADIC,
+		TETRADIC,
+		FOUR_TONE,
+		FIVE_TONE,
+		SIX_TONE,
+		NEUTRAL
+	};
+
+	enum SATURATION_TYPE {
+		STATIC,
+		LEVELS,
+		RANDOM
+	};
 
 	class ColorPalette : public Palette {
 	public:
@@ -19,18 +36,26 @@ namespace ofxColorPalette {
 		float getBlackProbability();
 		float getWhiteProbability();
 		float getSaturatedProbability();
+
+		void setSaturationType(SATURATION_TYPE type);
+		SATURATION_TYPE getSaturationType();
 		void setMaximumSaturation(float maximum_saturation);
 		float getMaximumSaturation();
-		void setMaximumBrightness(float maximum_brightness);
-		float getMaximumBrightness();
 		void setMinimumSaturation(float minimum_saturation);
 		float getMinimumSaturation();
+		void setNumberOfSaturationLevels(int levels);
+		int getNumberOfSaturationLevels();
+
+		void setMaximumBrightness(float maximum_brightness);
+		float getMaximumBrightness();
 		void setMinimumBrightness(float minimum_brightness);
 		float getMinimumBrightness();
 
 	protected:
 		PALETTE_TYPE mPaletteType;
+		SATURATION_TYPE mSaturationType;
 		std::vector<float> mHueOffsets;
+		std::vector<float> mSaturationLevels;
 		float mBlackProbability;
 		float mWhiteProbability;
 		float mSaturatedProbability;
