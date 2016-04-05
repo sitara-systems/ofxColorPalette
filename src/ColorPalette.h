@@ -28,9 +28,11 @@ namespace ofxColorPalette {
 		ColorPalette(PALETTE_TYPE palette);
 		~ColorPalette();
 		float getRootHue();
+		void setRootHue(float root);
 		std::vector<float> getHues();
 		std::shared_ptr<ofColor> nextColor();
 		void init(PALETTE_TYPE palette);
+		void resetPalette(PALETTE_TYPE palette, float rootHue);
 		void randomizePalette();
 		void setProbabilities(float black, float white, float saturated);
 		float getBlackProbability();
@@ -45,6 +47,7 @@ namespace ofxColorPalette {
 		float getMinimumSaturation();
 		void setNumberOfSaturationLevels(int levels);
 		int getNumberOfSaturationLevels();
+		std::vector<float> getSaturationLevels();
 
 		void setMaximumBrightness(float maximum_brightness);
 		float getMaximumBrightness();
@@ -54,7 +57,7 @@ namespace ofxColorPalette {
 	protected:
 		PALETTE_TYPE mPaletteType;
 		SATURATION_TYPE mSaturationType;
-		std::vector<float> mHueOffsets;
+		std::vector<float> mHues;
 		std::vector<float> mSaturationLevels;
 		float mBlackProbability;
 		float mWhiteProbability;
