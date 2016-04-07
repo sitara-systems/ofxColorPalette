@@ -9,18 +9,23 @@ All palettes inherit from the class `Palette.h`, and therefore have the same int
 
 * Creating a color palette:
 
+  ```
   ofxColorPalette::ColorPalette palette = new RandomPalette();
-
+  ```
+  
 * Calling `nextColor()` to get a `std::shared_ptr` to a color:
 
+  ```
   std::shared_ptr<ofColor> color_to_be_used = palette->nextColor();
+  ```
 
 * Using the color as you normally would!  You'll need to use the dereference operator (`*`) to get the `ofColor` object.
 
+  ```
   ofFill();
   ofSetColor(*color_to_be_used);
   ofCircle(0, 0, 100);
-
+  ```
 
 The included examples show this particular behavior.
 
