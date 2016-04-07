@@ -115,14 +115,15 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 void ofApp::drawCircles(ofxColorPalette::PALETTE_TYPE palette_type) {
 	ColorPalette* palette = new ColorPalette(palette_type, 25.0);
-	palette->setProbabilities(0.1, 0.1, 0.3);
+	palette->setProbabilities(0.05, 0.05, 0.9, 0.8);
+	palette->setNumberOfSaturationLevels(4);
 
 	mFbo.begin();
-	ofBackground(0);
+	ofBackground(128);
 
 	for (int i = 0; i < 100; i++) {
 		std::shared_ptr<ofColor> color = palette->nextColor();
-		ofSetColor(*color.get());
+		ofSetColor(*color);
 		ofCircle(ofPoint(ofRandom(0, ofGetWidth()), ofRandom(0, ofGetHeight())), 10);
 	}
 
