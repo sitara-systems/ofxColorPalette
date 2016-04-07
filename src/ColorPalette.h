@@ -16,6 +16,11 @@ namespace ofxColorPalette {
 		NEUTRAL
 	};
 
+	enum HUE_TYPE {
+		UNIFORM,
+		SKEWED_ROOT
+	};
+
 	enum SATURATION_TYPE {
 		STATIC,
 		LEVELS,
@@ -31,10 +36,15 @@ namespace ofxColorPalette {
 		void setRootHue(float root);
 		std::vector<float> getHues();
 		std::shared_ptr<ofColor> nextColor();
-		void init(PALETTE_TYPE palette);
 		void resetPalette(PALETTE_TYPE palette, float rootHue);
+		void setPaletteType(PALETTE_TYPE type);
+		PALETTE_TYPE getPaletteType();
 		void randomizePalette();
 		void setProbabilities(float black, float white, float saturated);
+		void setProbabilities(float black, float white, float saturated, float root);
+		void setHueType(HUE_TYPE type);
+		HUE_TYPE getHueType();
+		
 		float getBlackProbability();
 		float getWhiteProbability();
 		float getSaturatedProbability();
@@ -55,13 +65,16 @@ namespace ofxColorPalette {
 		float getMinimumBrightness();
 
 	protected:
+		void init(PALETTE_TYPE palette);
 		PALETTE_TYPE mPaletteType;
 		SATURATION_TYPE mSaturationType;
+		HUE_TYPE mHueType;
 		std::vector<float> mHues;
 		std::vector<float> mSaturationLevels;
 		float mBlackProbability;
 		float mWhiteProbability;
 		float mSaturatedProbability;
+		float mRootProbability;
 		float mMaximumBrightness;
 		float mMaximumSaturation;
 		float mMinimumBrightness;

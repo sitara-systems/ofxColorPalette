@@ -16,7 +16,21 @@ ColorPalette::~ColorPalette() {
 }
 
 std::shared_ptr<ofColor> ColorPalette::nextColor() {
-	float hue = std::fmod(mHues[(int)ofRandom(mHues.size())], 255.0);
+	float hue = NULL;
+
+	if (mHueType == UNIFORM || mPaletteType == MONOCHROME) {
+		// a bit of an odd special case -- MONOCHROME palettes only have one color, so we treat it as a uniform distribution.
+		hue = std::fmod(mHues[(int)ofRandom(mHues.size())], 255.0);
+	}
+	else {
+		float p = ofRandom(1.0);
+		if (p < mRootProbability) {
+			hue = mHues[0];
+		}
+		else {
+			hue = std::fmod(mHues[(int)ofRandom(mHues.size() - 1) + 1], 255.0);
+		}
+	}
 	float saturation;
 	float brightness;
 	float randomSeed = ofRandom(1.0);
@@ -120,10 +134,13 @@ std::vector<float> ColorPalette::getHues() {
 
 void ColorPalette::init(PALETTE_TYPE palette) {
 	mPaletteType = palette;
+	mHueType = UNIFORM;
 	mSaturationType = LEVELS;
+	setNumberOfSaturationLevels(8);
 	mBlackProbability = 0.0;
 	mWhiteProbability = 0.0;
 	mSaturatedProbability = 0.0;
+	mRootProbability = 0.0;
 	randomizePalette();
 	mMaximumBrightness = 255.0;
 	mMaximumSaturation = 255.0;
@@ -137,6 +154,16 @@ void ColorPalette::resetPalette(PALETTE_TYPE palette, float rootHue) {
 	mRootHue = rootHue;
 	init(palette);
 }
+
+void ColorPalette::setPaletteType(PALETTE_TYPE type) {
+	mPaletteType = type;
+	setRootHue(mRootHue);
+}
+
+PALETTE_TYPE ColorPalette::getPaletteType() {
+	return mPaletteType;
+}
+
 
 void ColorPalette::randomizePalette() {
 	float randomSeed = ofRandom(1.0);
@@ -153,21 +180,63 @@ void ColorPalette::randomizePalette() {
 	else if (randomSeed < 0.5) {
 		mWhiteProbability = 1.0 / (1 + mHues.size());
 		mSaturatedProbability = 1.0 - mWhiteProbability;
+		if (ofRandom(1.0) < 0.5) {
+			setHueType(SKEWED_ROOT);
+			mRootProbability = ofRandom(1.0);
+		}
+		else {
+			setHueType(UNIFORM);
+		}
 		mBlackProbability = 0.0;
 	}
 	else if (randomSeed < 0.6) {
 		mBlackProbability = 1.0 / (2 + mHues.size());
 		mWhiteProbability = 1.0 / (2 + mHues.size());
 		mSaturatedProbability = 1 - mBlackProbability - mWhiteProbability;
+		if (ofRandom(1.0) < 0.5) {
+			setHueType(SKEWED_ROOT);
+			mRootProbability = ofRandom(1.0);
+		}
+		else {
+			setHueType(UNIFORM);
+		}
 	}
 }
 
 void ColorPalette::setProbabilities(float black, float white, float saturated) {
+	if (black + white + saturated != 1.0) {
+		std::printf("ColorPalette::setProbabilities -- WARNING Probabilities do not add up to one!\n");
+	}
+	if (mHueType != UNIFORM) {
+		mHueType = UNIFORM;
+		std::printf("ColorPalette::setProbabilities -- Hue distribution type set to UNIFORM.\n");
+	}
 	mBlackProbability = black;
 	mWhiteProbability = white;
 	mSaturatedProbability = saturated;
 }
 
+void ColorPalette::setProbabilities(float black, float white, float saturated, float root) {
+	if (black + white + saturated != 1.0) {
+		std::printf("ColorPalette::setProbabilities -- WARNING Probabilities do not add up to one!\n");
+	}
+	if (mHueType != SKEWED_ROOT) {
+		mHueType = SKEWED_ROOT;
+		std::printf("ColorPalette::setProbabilities -- Hue distribution type set to SKEWED_ROOT.\n");
+	}
+	mBlackProbability = black;
+	mWhiteProbability = white;
+	mSaturatedProbability = saturated;
+	mRootProbability = root;
+}
+
+void ColorPalette::setHueType(HUE_TYPE type) {
+	mHueType = type;
+}
+
+HUE_TYPE ColorPalette::getHueType() {
+	return mHueType;
+}
 
 float ColorPalette::getBlackProbability() {
 	return mBlackProbability;
@@ -207,11 +276,12 @@ float ColorPalette::getMinimumSaturation() {
 
 void ColorPalette::setNumberOfSaturationLevels(int levels) {
 	mSaturationLevels.clear();
-	if (mSaturationType != SATURATION_TYPE::LEVELS) {
-		mSaturationType = SATURATION_TYPE::LEVELS;
+	if (mSaturationType != LEVELS) {
+		mSaturationType = LEVELS;
 	}
 	for (int i = 0; i < levels; i++) {
-		mSaturationLevels.push_back(255.0 * i / levels);
+		//saturation levels do NOT include pure white -- set a white probability if you want white!
+		mSaturationLevels.push_back(mMaximumSaturation * (i + 1) / (levels + 1));
 	}
 }
 

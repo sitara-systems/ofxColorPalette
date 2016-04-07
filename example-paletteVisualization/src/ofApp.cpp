@@ -5,7 +5,7 @@ void ofApp::setup() {
 	ofSetWindowTitle("ofxColorPalette -- Palette Visualization Example");
 	mFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
 
-	mPalette = std::make_shared<ofxColorPalette::ColorPalette>(ofxColorPalette::PALETTE_TYPE::FIVE_TONE, 0.0);
+	mPalette = std::make_shared<ofxColorPalette::ColorPalette>(ofxColorPalette::PALETTE_TYPE::TETRADIC, 0.0);
 	mPalette->setNumberOfSaturationLevels(11);
 	mSelectedHueIndex = 0;
 	mSelectedSaturationLevel = 5;
@@ -26,53 +26,39 @@ void ofApp::draw() {
 void ofApp::keyPressed(int key) {
 	switch (key) {
 	case '1':
-		mSelectedHueIndex = 0;
-		mPalette->setRootHue(0.0 * 255.0 / 10.0);
+		mPalette->setPaletteType(ofxColorPalette::PALETTE_TYPE::MONOCHROME);
 		drawPalette();
 		break;
 	case '2':
-		mSelectedHueIndex = 1;
-		mPalette->setRootHue(1.0 * 255.0 / 10.0);
+		mPalette->setPaletteType(ofxColorPalette::PALETTE_TYPE::COMPLEMENTARY);
 		drawPalette();
 		break;
 	case '3':
-		mSelectedHueIndex = 2;
-		mPalette->setRootHue(2.0 * 255.0 / 10.0);
+		mPalette->setPaletteType(ofxColorPalette::PALETTE_TYPE::SPLIT_COMPLEMENTARY);
 		drawPalette();
 		break;
 	case '4':
-		mSelectedHueIndex = 3;
-		mPalette->setRootHue(3.0 * 255.0 / 10.0);
+		mPalette->setPaletteType(ofxColorPalette::PALETTE_TYPE::TRIADIC);
 		drawPalette();
 		break;
 	case '5':
-		mSelectedHueIndex = 4;
-		mPalette->setRootHue(4.0 * 255.0 / 10.0);
+		mPalette->setPaletteType(ofxColorPalette::PALETTE_TYPE::TETRADIC);
 		drawPalette();
 		break;
 	case '6':
-		mSelectedHueIndex = 5;
-		mPalette->setRootHue(5.0 * 255.0 / 10.0);
+		mPalette->setPaletteType(ofxColorPalette::PALETTE_TYPE::FOUR_TONE);
 		drawPalette();
 		break;
 	case '7':
-		mSelectedHueIndex = 6;
-		mPalette->setRootHue(6.0 * 255.0 / 10.0);
+		mPalette->setPaletteType(ofxColorPalette::PALETTE_TYPE::FIVE_TONE);
 		drawPalette();
 		break;
 	case '8':
-		mSelectedHueIndex = 7;
-		mPalette->setRootHue(7.0 * 255.0 / 10.0);
+		mPalette->setPaletteType(ofxColorPalette::PALETTE_TYPE::SIX_TONE);
 		drawPalette();
 		break;
 	case '9':
-		mSelectedHueIndex = 8;
-		mPalette->setRootHue(8.0 * 255.0 / 10.0);
-		drawPalette();
-		break;
-	case '0':
-		mSelectedHueIndex = 9;
-		mPalette->setRootHue(9.0 * 255.0 / 10.0);
+		mPalette->setPaletteType(ofxColorPalette::PALETTE_TYPE::NEUTRAL);
 		drawPalette();
 		break;
 	case OF_KEY_DOWN:
