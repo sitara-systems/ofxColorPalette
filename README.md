@@ -8,21 +8,19 @@ None!  This addon will work right out of the box.
 All palettes inherit from the class `Palette.h`, and therefore have the same interface.  For any palette included here, you can use it by:
 
 * Creating a color palette:
-    ```
+
     ofxColorPalette::ColorPalette palette = new RandomPalette();
-    ```
 
 * Calling `nextColor()` to get a `std::shared_ptr` to a color:
-  ```
-  std::shared_ptr<ofColor> color_to_be_used = palette->nextColor();
-  ```
+
+    std::shared_ptr<ofColor> color_to_be_used = palette->nextColor();
 
 * Using the color as you normally would!  You'll need to use the dereference operator (`*`) to get the `ofColor` object.
-  ```
-  ofFill();
-  ofSetColor(*color_to_be_used);
-  ofCircle(0, 0, 100);
-  ```
+
+    ofFill();
+    ofSetColor(*color_to_be_used);
+    ofCircle(0, 0, 100);
+
 
 The included examples show this particular behavior.
 
@@ -42,9 +40,9 @@ This palette is by far the most complex with the greatest number of options.  Th
 
 * `MONOCHROME` -- A single hue, the root hue.
 * `COMPLEMENTARY` -- Two hues: the root hue, and it's complementary color 180 degrees on the color wheel.
-* `SPLIT_COMPLEMENTARY -- Three hues: the root hue, and two hues evenly offset from the complement.
+* `SPLIT_COMPLEMENTARY` -- Three hues: the root hue, and two hues evenly offset from the complement.
 * `TRIADIC` -- Three hues evenly spaced on the color wheel.
-* `TETRADIC -- Four hues evenly spaced on the color wheel.
+* `TETRADIC` -- Four hues evenly spaced on the color wheel.
 * `FOUR_TONE` -- The root, a color closely offset from the hue by 60 degrees, and then the two complements.
 * `FIVE_TONE` -- The root and four split complementary colors.
 * `SIX_TONE` -- Like `TRIADIC`, but with a neighboring tone for each of the three.
@@ -53,18 +51,14 @@ This palette is by far the most complex with the greatest number of options.  Th
 #### Basic Usage
 Once you've created a `ColorPalette` object, it has random probabilities for generating black, white, and saturated (both partially and fully) colors.  If you'd like to set the probabilities to a specific ratio, you can do so using the function
 
-     ````
      setProbabilities(float black, float white, float saturated)
-     ````
 
 All three probabilities should add up to one.  The colors that are generated will have randomly assigned values for brightness and saturation; if you wish to have a minimum or maximum for the randomly generated values, you can do so with
 
-    ```
     setMinimumSaturation(float minimum_saturation);
     setMaximumSaturation(float maximum_saturation);
     setMinimumBrightness(float minimum_brightness);
     setMaximumBrightness(float maximum_brightness);
-    ````
 
 #### Saturation Options
 In addition to the above options, there are three types of saturation options, described in the enum `SATURATION_TYPE`:
@@ -83,9 +77,7 @@ There are two options for hue, defined in the enum `HUE_TYPE`:
 
 If you choose `SKEWED_ROOT`, the root probability can be set via:
 
-     ````
-     setProbabilities(float black, float white, float saturated, float root)
-     ````
+    setProbabilities(float black, float white, float saturated, float root)
 
 Not that this probability is seperate from the black/white/saturated probabilities, and does not have to add up to one.  This is because the hue is chosen after the type of color.
 
